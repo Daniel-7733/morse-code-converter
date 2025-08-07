@@ -71,7 +71,7 @@ def check_morse(user_input: str) -> bool:
     """
 
     valid_morse_chars: set[str] = {'.', '-', '/', ' '}
-    return all(char in valid_morse_chars for char in user_input) # all() will return if all the element are true
+    return all(char in valid_morse_chars for char in user_input) # all() will return if all the element are True
 
 
 def test_morse_converter() -> None:
