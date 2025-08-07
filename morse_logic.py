@@ -38,8 +38,14 @@ def morse_decrypt(code: str, inverse_dictionary: dict) -> str:
     Returns: (String) text
 
     """
-    # reverse_dict = {v: k for k, v in morse_code_dict.items()}
-    return ''.join(inverse_dictionary[symbol] for symbol in code.split(' ') if symbol in inverse_dictionary)
+
+    is_morse: bool = check_morse(code)
+
+    if is_morse:
+        return ''.join(inverse_dictionary[symbol] for symbol in code.split(' ') if symbol in inverse_dictionary)
+
+    return "Write the code"
+
 
 def reverse_dictionary(original_dictionary: dict) -> dict[str, str]:
     """
@@ -54,11 +60,18 @@ def reverse_dictionary(original_dictionary: dict) -> dict[str, str]:
     return {v: k for k, v in original_dictionary.items()}
 
 
-def check_morse() -> bool:
-    # TODO: check if user enter the morse code not bunch of text.
-    # I might use for loop to see if characters exist in morse code
-    # if it was morse character, then return True otherwise False
-    raise NotImplementedError("'check_morse()' not made yet")
+def check_morse(user_input: str) -> bool:
+    """
+    Function will check if the user input is actual morse code not a text.
+    Args:
+        user_input: (String) should be morse code
+
+    Returns: Will return True if user input is morse code otherwise False
+
+    """
+
+    valid_morse_chars: set[str] = {'.', '-', '/', ' '}
+    return all(char in valid_morse_chars for char in user_input) # all() will return if all the element are true
 
 
 def test_morse_converter() -> None:
@@ -68,14 +81,22 @@ def test_morse_converter() -> None:
     Returns: None
 
     """
-    # text: str = "HELLO FRIEND"
-    text: str = input("Your massage: ")
-    encrypted: str = morse_encrypt(text)
-    print("Encrypted:", encrypted)
+    while True:
 
-    reverse_dict: dict[str, str] = reverse_dictionary(morse_code_dict)
-    decrypted: str = morse_decrypt(encrypted, reverse_dict)
-    print("Decrypted:", decrypted)
+        a_text: str = input("write 'n' for normal text and 'c' for code: ").lower()
+
+        if a_text == 'n':
+            text: str = input("Your massage: ")
+            encrypted: str = morse_encrypt(text)
+            print("Encrypted:", encrypted)
+        elif a_text == 'c':
+            c_text: str = input("Your massage: ")
+            reverse_dict: dict[str, str] = reverse_dictionary(morse_code_dict)
+            decrypted: str = morse_decrypt(c_text, reverse_dict)
+            print("Decrypted:", decrypted)
+        else:
+            break
+
 
 
 if __name__ == "__main__":
