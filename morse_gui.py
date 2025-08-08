@@ -1,16 +1,17 @@
 from tkinter import Tk, Frame, Text, Button, Entry
+from morse_logic import morse_encrypt, morse_decrypt
 
 def handle_text_to_morse():
     """Convert to morse"""
-    print("Done")
+    return morse_encrypt
 
 
 def handle_morse_to_text():
     """Convert to text"""
-    print("Done")
+    return morse_decrypt
 
 
-app = Tk()
+app: Tk = Tk()
 app.title("Morse Code")
 app.geometry("400x400")
 
