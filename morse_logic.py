@@ -28,7 +28,7 @@ def morse_encrypt(text: str) -> str:
     return ' '.join(morse_code_dict[i] for i in text.upper() if i in morse_code_dict)
 
 
-def morse_decrypt(code: str, inverse_dictionary: dict) -> str:
+def morse_decrypt(code: str) -> str:
     """
     This function will decrypt your morse code to text
     Args:
@@ -38,7 +38,7 @@ def morse_decrypt(code: str, inverse_dictionary: dict) -> str:
     Returns: (String) text
 
     """
-
+    inverse_dictionary: dict[str, str] = reverse_dictionary(morse_code_dict)
     is_morse: bool = check_morse(code)
 
     if is_morse:
@@ -91,12 +91,10 @@ def test_morse_converter() -> None:
             print("Encrypted:", encrypted)
         elif a_text == 'c':
             c_text: str = input("Your massage: ")
-            reverse_dict: dict[str, str] = reverse_dictionary(morse_code_dict)
-            decrypted: str = morse_decrypt(c_text, reverse_dict)
+            decrypted: str = morse_decrypt(c_text)
             print("Decrypted:", decrypted)
         else:
             break
-
 
 
 if __name__ == "__main__":
