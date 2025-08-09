@@ -1,3 +1,6 @@
+from pywhatkit import sendwhatmsg
+
+
 morse_code_dict: dict[str, str] = {
     'A': '.-',     'B': '-...',   'C': '-.-.',   'D': '-..',    'E': '.', 
     'F': '..-.',   'G': '--.',    'H': '....',   'I': '..',     'J': '.---',
@@ -14,6 +17,10 @@ morse_code_dict: dict[str, str] = {
     ';': '-.-.-.', '=': '-...-',  '+': '.-.-.',  '-': '-....-',  '_': '..--.-',
     '"': '.-..-.', '$': '...-..-', '@': '.--.-.', ' ': '/'
 }
+
+def send_massage_whatsapp() -> None:
+    # I will add phone_number: str, message: str and datetime to get the time_hour and time_min
+    sendwhatmsg("+1xxxxxxxxxx", "Hi", 20, 24)
 
 
 def morse_encrypt(text: str) -> str:
@@ -98,4 +105,5 @@ def test_morse_converter() -> None:
 
 
 if __name__ == "__main__":
-    test_morse_converter()
+    #test_morse_converter()
+    send_massage_whatsapp()

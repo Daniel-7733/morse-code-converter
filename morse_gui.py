@@ -48,5 +48,6 @@ convert_to_text_btn.grid(row=2, column=2)
 
 # TODO: Part Three
 # Connect to the internet and send the message to another person
+# ---- send to WhatsApp ----
 
 app.mainloop()
