@@ -1,4 +1,4 @@
-from pywhatkit import sendwhatmsg
+from pywhatkit import sendwhatmsg, sendwhatmsg_instantly
 
 
 morse_code_dict: dict[str, str] = {
@@ -18,10 +18,16 @@ morse_code_dict: dict[str, str] = {
     '"': '.-..-.', '$': '...-..-', '@': '.--.-.', ' ': '/'
 }
 
-def send_massage_whatsapp() -> None:
-    # I will add phone_number: str, message: str and datetime to get the time_hour and time_min
-    sendwhatmsg("+1xxxxxxxxxx", "Hi", 20, 24)
-
+def send_massage_whatsapp(phone_number: str, message: str) -> None:
+    # I will add phone_number: str, message: str
+    # I need function to check the phone number which is True, and it has +code
+    sendwhatmsg_instantly(
+        phone_no=phone_number,
+        message=message,
+        wait_time=10,   # seconds to wait before sending (adjust if your internet is slow)
+        tab_close=True, # close browser tab after sending
+        close_time=10    # seconds before tab closes
+    )
 
 def morse_encrypt(text: str) -> str:
     """
@@ -96,6 +102,11 @@ def test_morse_converter() -> None:
             text: str = input("Your massage: ")
             encrypted: str = morse_encrypt(text)
             print("Encrypted:", encrypted)
+
+            send_whatsapp: str = input("Send the code to WhatsApp: (y/n)").lower()
+            if send_whatsapp == 'y':
+                send_massage_whatsapp(phone_number="+1 xxx xxx xxxx", message=encrypted)
+
         elif a_text == 'c':
             c_text: str = input("Your massage: ")
             decrypted: str = morse_decrypt(c_text)
@@ -105,5 +116,4 @@ def test_morse_converter() -> None:
 
 
 if __name__ == "__main__":
-    #test_morse_converter()
-    send_massage_whatsapp()
+    test_morse_converter()

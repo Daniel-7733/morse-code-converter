@@ -23,7 +23,7 @@ def handle_morse_to_text() -> None:
 # ------------- GUI ------------- #
 app: Tk = Tk()
 app.title("Morse Code")
-app.geometry("400x400")
+app.geometry("600x600")
 
 window: Frame = Frame(app)  # Use a Frame to manage layout better
 window.pack(padx=10, pady=10)  # Display the frame
@@ -49,5 +49,21 @@ convert_to_text_btn.grid(row=2, column=2)
 # TODO: Part Three
 # Connect to the internet and send the message to another person
 # ---- send to WhatsApp ----
+
+def add():
+    ...
+
+def send():
+    ...
+
+whatsapp_number_input_entry: Entry = Entry(window, width=40)
+whatsapp_number_input_entry.grid(row=3, column=0, columnspan=2, padx=5, pady=10)
+
+add_phone_no_btn: Button = Button(window, text="Add phone number", command=add)
+add_phone_no_btn.grid(row=3, column=2)
+
+send_btn: Button = Button(window, text="Send", command=send)
+send_btn.grid(row=4, column=2)
+
 
 app.mainloop()
