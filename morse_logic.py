@@ -1,5 +1,5 @@
-from pywhatkit import sendwhatmsg, sendwhatmsg_instantly
-
+from phonenumbers import parse, is_valid_number, PhoneNumber, NumberParseException, SUPPORTED_REGIONS
+from pywhatkit import sendwhatmsg_instantly
 
 morse_code_dict: dict[str, str] = {
     'A': '.-',     'B': '-...',   'C': '-.-.',   'D': '-..',    'E': '.', 
@@ -18,16 +18,51 @@ morse_code_dict: dict[str, str] = {
     '"': '.-..-.', '$': '...-..-', '@': '.--.-.', ' ': '/'
 }
 
-def send_massage_whatsapp(phone_number: str, message: str) -> None:
-    # I will add phone_number: str, message: str
-    # I need function to check the phone number which is True, and it has +code
-    sendwhatmsg_instantly(
-        phone_no=phone_number,
-        message=message,
-        wait_time=10,   # seconds to wait before sending (adjust if your internet is slow)
-        tab_close=True, # close browser tab after sending
-        close_time=10    # seconds before tab closes
-    )
+
+
+def is_phone_number_validate(phone_number: str, region: str) -> bool:
+    """
+    This will check the phone number and return True if the pattern is consistent
+
+    Args:
+        phone_number: (String) Add a phone number
+        region: (String) country region of phone number like ['AC', 'AD', 'AE', 'AF', ..., 'US']
+
+    Returns: (boolean) return True if pattern is consistent
+
+    """
+
+    try:
+        parsed_number: PhoneNumber = parse(phone_number, region)
+        return is_valid_number(parsed_number)
+    except NumberParseException:
+        return False
+
+
+def send_massage_whatsapp(phone_number: str, message: str, region: str) -> None:
+    """
+
+    Args:
+        phone_number: (String) Add a phone number which receive the message.
+        message: (String) The massage in english format.
+        region: (String) country region of phone number like ['AC', 'AD', 'AE', 'AF', ..., 'US']
+
+    Returns: None
+
+    """
+
+    valid_number = is_phone_number_validate(phone_number, region)
+
+    if valid_number:
+        sendwhatmsg_instantly(
+            phone_no=phone_number,
+            message=message,
+            wait_time=10,   # seconds to wait before sending (adjust if your internet is slow)
+            tab_close=True, # close browser tab after sending
+            close_time=10    # seconds before tab closes
+        )
+    else:
+        print("Please check your phone number or region!")
 
 def morse_encrypt(text: str) -> str:
     """
@@ -45,7 +80,6 @@ def morse_decrypt(code: str) -> str:
     """
     This function will decrypt your morse code to text
     Args:
-        inverse_dictionary: (dict) it should be reverse dictionary.
         code: (String) just morse code.
 
     Returns: (String) text
@@ -103,9 +137,12 @@ def test_morse_converter() -> None:
             encrypted: str = morse_encrypt(text)
             print("Encrypted:", encrypted)
 
-            send_whatsapp: str = input("Send the code to WhatsApp: (y/n)").lower()
+            send_whatsapp: str = input("Send the code to WhatsApp: (y/n) ").lower()
             if send_whatsapp == 'y':
-                send_massage_whatsapp(phone_number="+1 xxx xxx xxxx", message=encrypted)
+                print(sorted(SUPPORTED_REGIONS), "\n")
+                ask_region: str = input("Region: ").upper()
+                ask_phone_number: str = input("Phone Number: ")
+                send_massage_whatsapp(phone_number=ask_phone_number, message=encrypted, region=ask_region)
 
         elif a_text == 'c':
             c_text: str = input("Your massage: ")
