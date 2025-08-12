@@ -41,6 +41,7 @@ def is_phone_number_validate(phone_number: str, region: str) -> bool:
 
 def send_massage_whatsapp(phone_number: str, message: str, region: str) -> None:
     """
+    Will send the morse code to the WhatsApp
 
     Args:
         phone_number: (String) Add a phone number which receive the message.
