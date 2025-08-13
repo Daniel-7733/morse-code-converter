@@ -1,2 +1,5 @@
-# No external dependencies
-# Tkinter is included with the standard Python installation.
+pywhatkit
+phonenumbers
+pyautogui
+pillow
+keyboard

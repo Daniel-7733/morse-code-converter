@@ -1,13 +1,15 @@
-from tkinter import Tk, Frame, Text, Button, Entry, END
-from morse_logic import morse_encrypt, morse_decrypt
+from tkinter import Tk, Frame, Text, Button, Entry, END, Label
+from morse_logic import morse_encrypt, morse_decrypt, send_massage_whatsapp
 
 
-def handle_text_to_morse() -> None:
+def handle_text_to_morse() -> str:
     """Convert to morse"""
     user_input: str = text_input_entry.get()
     result: str = morse_encrypt(user_input)
     output_display.delete("1.0", END)
     output_display.insert(END, result)
+
+    return result
 
 def handle_morse_to_text() -> None:
     """Convert to text"""
@@ -20,13 +22,34 @@ def handle_morse_to_text() -> None:
     output_display.insert(END, result)
 
 
+def send():
+    region_input: str = region_input_entry.get().strip().upper()
+    phone_number_input: str = phone_number_input_entry.get().strip()
+    # morse_input: str = morse_input_entry.get().strip()
+    #
+    # result: str = morse_decrypt(morse_input)
+    # if result == "Write the code":
+    #     output_display.delete("1.0", END)
+    #     output_display.insert(END, "Please enter valid Morse (., -, / and spaces).")
+    #     return
+    result: str = handle_text_to_morse()
+    send_massage_whatsapp(phone_number=phone_number_input, message=result, region=region_input)
+
+
+
 # ------------- GUI ------------- #
 app: Tk = Tk()
 app.title("Morse Code")
-app.geometry("600x600")
+app.geometry("700x600")
 
 window: Frame = Frame(app)  # Use a Frame to manage layout better
 window.pack(padx=10, pady=10)  # Display the frame
+
+window.grid_columnconfigure(0, weight=0)
+window.grid_columnconfigure(1, weight=0)
+window.grid_columnconfigure(2, weight=0)
+window.grid_columnconfigure(3, weight=0)
+
 
 # Output area
 output_display: Text = Text(window, bg="#BEBEBE", height=10, width=45)  # Adjusted height
@@ -49,21 +72,17 @@ convert_to_text_btn.grid(row=2, column=2)
 # TODO: Part Three
 # Connect to the internet and send the message to another person
 # ---- send to WhatsApp ----
-
-def add():
-    ...
-
-def send():
-    ...
+region_label: Label = Label(window, text="Region:")
+region_label.grid(row=3, column=0, padx=5, pady=10, sticky="w")
 
 region_input_entry: Entry = Entry(window, width=3)
-region_input_entry.grid(row=3, column=0, padx=5, pady=10, sticky="w")
+region_input_entry.grid(row=3, column=0, padx=5, pady=10, sticky="ns")
 
-whatsapp_number_input_entry: Entry = Entry(window, width=20)
-whatsapp_number_input_entry.grid(row=3, column=1, padx=5, pady=10, sticky="w")
+phone_number_label: Label = Label(window, text="Phone Number:")
+phone_number_label.grid(row=3, column=1, padx=5, pady=10, sticky="e")
 
-add_phone_no_btn: Button = Button(window, text="Add your phone", command=add)
-add_phone_no_btn.grid(row=3, column=2)
+phone_number_input_entry: Entry = Entry(window, width=20)
+phone_number_input_entry.grid(row=3, column=2, padx=5, pady=10, sticky="w")
 
 send_btn: Button = Button(window, text="Send", command=send)
 send_btn.grid(row=5, column=1)

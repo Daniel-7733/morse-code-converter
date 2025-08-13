@@ -1,4 +1,5 @@
-from phonenumbers import parse, is_valid_number, PhoneNumber, NumberParseException, SUPPORTED_REGIONS
+from phonenumbers import (parse, is_valid_number, PhoneNumber, NumberParseException, SUPPORTED_REGIONS, format_number,
+                          PhoneNumberFormat)
 from pywhatkit import sendwhatmsg_instantly
 
 morse_code_dict: dict[str, str] = {
@@ -41,7 +42,7 @@ def is_phone_number_validate(phone_number: str, region: str) -> bool:
 
 def send_massage_whatsapp(phone_number: str, message: str, region: str) -> None:
     """
-    Will send the morse code to the WhatsApp
+    Will send the morse code to WhatsApp (expects a valid number; converts to E.164).
 
     Args:
         phone_number: (String) Add a phone number which receive the message.
@@ -52,17 +53,22 @@ def send_massage_whatsapp(phone_number: str, message: str, region: str) -> None:
 
     """
 
-    valid_number: bool = is_phone_number_validate(phone_number, region)
+    try:
+        parsed: PhoneNumber = parse(phone_number, region.upper())
+        if not is_valid_number(parsed):
+            print("Please check your phone number or region!")
+            return
 
-    if valid_number:
+        e164: str = format_number(parsed, PhoneNumberFormat.E164)  # e.g., +14155552671
+
         sendwhatmsg_instantly(
-            phone_no=phone_number,
+            phone_no=e164,
             message=message,
-            wait_time=10,   # seconds to wait before sending (adjust if your internet is slow)
-            tab_close=True, # close browser tab after sending
-            close_time=10    # seconds before tab closes
+            wait_time=15,   # give WhatsApp Web time to load
+            tab_close=True,
+            close_time=5
         )
-    else:
+    except NumberParseException:
         print("Please check your phone number or region!")
 
 def morse_encrypt(text: str) -> str:
