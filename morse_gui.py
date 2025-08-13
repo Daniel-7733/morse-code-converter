@@ -56,14 +56,17 @@ def add():
 def send():
     ...
 
-whatsapp_number_input_entry: Entry = Entry(window, width=40)
-whatsapp_number_input_entry.grid(row=3, column=0, columnspan=2, padx=5, pady=10)
+region_input_entry: Entry = Entry(window, width=3)
+region_input_entry.grid(row=3, column=0, padx=5, pady=10, sticky="w")
 
-add_phone_no_btn: Button = Button(window, text="Add phone number", command=add)
+whatsapp_number_input_entry: Entry = Entry(window, width=20)
+whatsapp_number_input_entry.grid(row=3, column=1, padx=5, pady=10, sticky="w")
+
+add_phone_no_btn: Button = Button(window, text="Add your phone", command=add)
 add_phone_no_btn.grid(row=3, column=2)
 
 send_btn: Button = Button(window, text="Send", command=send)
-send_btn.grid(row=4, column=2)
+send_btn.grid(row=5, column=1)
 
 
 app.mainloop()

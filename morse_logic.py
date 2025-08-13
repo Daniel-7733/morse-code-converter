@@ -52,7 +52,7 @@ def send_massage_whatsapp(phone_number: str, message: str, region: str) -> None:
 
     """
 
-    valid_number = is_phone_number_validate(phone_number, region)
+    valid_number: bool = is_phone_number_validate(phone_number, region)
 
     if valid_number:
         sendwhatmsg_instantly(
@@ -86,12 +86,12 @@ def morse_decrypt(code: str) -> str:
     Returns: (String) text
 
     """
+
     inverse_dictionary: dict[str, str] = reverse_dictionary(morse_code_dict)
     is_morse: bool = check_morse(code)
 
     if is_morse:
         return ''.join(inverse_dictionary[symbol] for symbol in code.split(' ') if symbol in inverse_dictionary)
-
     return "Write the code"
 
 
