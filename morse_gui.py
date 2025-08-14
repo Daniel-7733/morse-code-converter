@@ -1,7 +1,7 @@
 from tkinter import Tk, Frame, Text, Button, Entry, END, Label
 from morse_logic import morse_encrypt, morse_decrypt, send_massage_whatsapp
 
-
+# ------------- Functions ------------- #
 def handle_text_to_morse() -> str:
     """Convert to morse"""
     user_input: str = text_input_entry.get()
@@ -25,13 +25,6 @@ def handle_morse_to_text() -> None:
 def send():
     region_input: str = region_input_entry.get().strip().upper()
     phone_number_input: str = phone_number_input_entry.get().strip()
-    # morse_input: str = morse_input_entry.get().strip()
-    #
-    # result: str = morse_decrypt(morse_input)
-    # if result == "Write the code":
-    #     output_display.delete("1.0", END)
-    #     output_display.insert(END, "Please enter valid Morse (., -, / and spaces).")
-    #     return
     result: str = handle_text_to_morse()
     send_massage_whatsapp(phone_number=phone_number_input, message=result, region=region_input)
 
@@ -69,8 +62,6 @@ morse_input_entry.grid(row=2, column=0, columnspan=2, padx=5, pady=10)
 convert_to_text_btn: Button = Button(window, text="Convert to Text", command=handle_morse_to_text)
 convert_to_text_btn.grid(row=2, column=2)
 
-# TODO: Part Three
-# Connect to the internet and send the message to another person
 # ---- send to WhatsApp ----
 region_label: Label = Label(window, text="Region:")
 region_label.grid(row=3, column=0, padx=5, pady=10, sticky="w")
